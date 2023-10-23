@@ -115,24 +115,20 @@ console.log(elevenCharStr("AAB123")); //AABZ1230000
 // Create a function that takes braces as string and returns true if braces are valid, otherwise false.
 // Hint. Use Array, push, pop methods
 
-function checkBracesValidity(braces) {
+function checkCurlyBracesValidity(braces) {
     let stack = [];
 
-    let openingBraces = ["(", "[", "{"];
+    let openingBrace = ["{"];
 
-    let closingBraces = [")", "]", "}"];
+    let closingBrace = ["}"];
 
     for (let i = 0; i < braces.length; i++) {
-        if (openingBraces.includes(braces[i])) {
+        if (openingBrace.includes(braces[i])) {
             stack.push(braces[i]);
-        } else if (closingBraces.includes(braces[i])) {
+        } else if (closingBrace.includes(braces[i])) {
             let lastOpeningBrace = stack.pop();
 
-            if (
-                (braces[i] === ")" && lastOpeningBrace !== "(") ||
-                (braces[i] === "]" && lastOpeningBrace !== "[") ||
-                (braces[i] === "}" && lastOpeningBrace !== "{")
-            ) {
+            if (braces[i] === "}" && lastOpeningBrace !== "{") {
                 return false;
             }
         }
@@ -163,29 +159,58 @@ console.log(twoLargest([110, 60, -3, 90, 98, 100]));
 // Create a function, that takes an array of that tags. Return true if they have valid order and syntax, structure. Otherwise, return false
 // Valid: [<section>, </section>, <div>, </div>]
 // Invalid: [<a>, <div>, </a>, </div>]
-function checkValidity(tags) {
-    const stack = [];
+const isOpeningTag = (tag) => {
+    return tag[1] !== "/";
+};
 
-    for (let i = 0; i < tags.length; i++) {
-        const tag = tags[i];
+const convertToOpeningTag = (closingTag) => {
+    return closingTag[0] + closingTag.slice(2);
+};
 
-        if (tag.startsWith("</")) {
-            if (stack.length === 0) {
-                return false; // Invalid: closing tag without corresponding opening tag
+const isHtmlValid = (tags) => {
+    const holder = [];
+    for (const tag of tags) {
+        if (isOpeningTag(tag)) {
+            holder.push(tag);
+        } else {
+            const lastTag = holder.pop();
+            const openingTag = convertToOpeningTag(tag);
+
+            if (lastTag !== openingTag) {
+                return false;
             }
-
-            const openingTag = stack.pop();
-
-            if (openingTag !== tag.slice(2, -1)) {
-                return false; // Invalid: mismatched opening and closing tags
-            }
-        } else if (tag.startsWith("<")) {
-            stack.push(tag.slice(1, -1));
         }
     }
 
-    return stack.length === 0; // Valid if all opening tags have corresponding closing tags
-}
+    return holder.length === 0;
+};
+console.log(isHtmlValid(["<section>", "</section>", "<div>", "</div>"])); // true
+
+console.log(isHtmlValid(["<a>", "<div>", "</a>", "</div>"])); // false
+
+// function checkValidity(tags) {
+//     const stack = [];
+
+//     for (let i = 0; i < tags.length; i++) {
+//         const tag = tags[i];
+
+//         if (tag.startsWith("</")) {
+//             if (stack.length === 0) {
+//                 return false; // Invalid: closing tag without corresponding opening tag
+//             }
+
+//             const openingTag = stack.pop();
+
+//             if (openingTag !== tag.slice(2, -1)) {
+//                 return false; // Invalid: mismatched opening and closing tags
+//             }
+//         } else if (tag.startsWith("<")) {
+//             stack.push(tag.slice(1, -1));
+//         }
+//     }
+
+//     return stack.length === 0; // Valid if all opening tags have corresponding closing tags
+// }
 
 // console.log(checkValidity(["<section>", "</section>", "<div>", "</div>"])); // true
 
@@ -218,3 +243,39 @@ function checkValidity(tags) {
 // const invalidTags = ["<a>", "<div>", "</a>", "</div>"];
 
 // console.log(checkTagValidity(invalidTags)); // Output: false
+
+// Create a function, that takes a astring, each char of string is brace, <(){}[]>. You have to return true if bracescare valid, otherwise false.
+// "{}[()]" => Valid
+// "[}" => Not Valid
+// "[{]}" => No Valid
+// "{{}}[()](" => Not Valid
+
+function areBracesValid(braces) {
+    let holder = [];
+    let openingBraces = "({[";
+    // let closingBraces = ")}]";
+
+    for (let i = 0; i < braces.length; i++) {
+        if (openingBraces.includes(braces[i])) {
+            holder.push(braces[i]);
+        } else {
+            let lastBrace = holder.pop();
+
+            if (
+                (braces[i] === ")" && lastBrace !== "(") ||
+                (braces[i] === "]" && lastBrace !== "[") ||
+                (braces[i] === "}" && lastBrace !== "{")
+            ) {
+                return false;
+            }
+        }
+    }
+
+    return holder.length === 0;
+}
+
+console.log("________________________");
+console.log(areBracesValid("{}[()]"));
+console.log(areBracesValid("[}"));
+console.log(areBracesValid("[{]}"));
+console.log(areBracesValid("{{}}[()]("));
