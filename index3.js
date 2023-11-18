@@ -31,3 +31,22 @@ const sumUpArr = (arr) => {
 };
 console.log("______________________________");
 console.log(sumUpArr([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
+
+
+// Write a JavaScript function that takes an array as input. This array can contain elements that are either numbers or arrays of numbers, but the arrays will not contain further nested arrays. The function should return a new array that is a flattened version of the input array, where all elements are at the root level.
+
+function flattenArray(arr) {
+    const flatten = [];
+    for (const ele of arr) {
+        if (Array.isArray(ele)) {
+            for (const num of ele) {
+                flatten.push(num);
+            }
+        } else {
+            flatten.push(ele);
+        }
+    }
+    return flatten;
+}
+console.log("____________________________");
+console.log(flattenArray([1, 2, 3, [4, 5]]));
