@@ -50,3 +50,25 @@ function flattenArray(arr) {
 }
 console.log("____________________________");
 console.log(flattenArray([1, 2, 3, [4, 5]]));
+
+function addTwoNumbers(l1, l2) {
+    const result = [];
+    let carry = 0;
+
+    for (let i = 0; i < Math.max(l1.length, l2.length); i++) {
+        const digit1 = l1[i] || 0;
+        const digit2 = l2[i] || 0;
+        const sum = digit1 + digit2 + carry;
+
+        result.unshift(sum % 10);
+        carry = Math.floor(sum / 10);
+    }
+    if (carry > 0) {
+        result.unshift(carry);
+    }
+
+    return result;
+}
+
+console.log("____________________________");
+console.log(addTwoNumbers([2, 4, 3], [5, 6, 4]));
