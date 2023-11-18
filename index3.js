@@ -32,7 +32,6 @@ const sumUpArr = (arr) => {
 console.log("______________________________");
 console.log(sumUpArr([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
 
-
 // Write a JavaScript function that takes an array as input. This array can contain elements that are either numbers or arrays of numbers, but the arrays will not contain further nested arrays. The function should return a new array that is a flattened version of the input array, where all elements are at the root level.
 
 function flattenArray(arr) {
@@ -91,3 +90,46 @@ function removeDuplicates(arr) {
     return unique;
 }
 console.log(removeDuplicates([1, 2, 3, 1, 2, 5, 5]));
+
+// Develop a function that determines if two strings are anagrams of each other. Return true if anagrams, else false.
+
+// e.g ("secure", "rescue")
+// secure   =>  rescue
+//HELLO, ELLOH\
+// APPLE, LEAPP
+// PULLS, PULLR
+
+const isAnagram = (str1, str2) => {
+    if (str1.length !== str2.length) {
+        return false;
+    }
+
+    str1Count = {};
+    str2Count = {};
+
+    for (const char of str1) {
+        if (str1Count[char]) {
+            str1Count[char]++;
+        } else {
+            str1Count[char] = 1;
+        }
+    }
+
+    for (const char of str2) {
+        if (str2Count[char]) {
+            str2Count[char]++;
+        } else {
+            str2Count[char] = 1;
+        }
+    }
+
+    for (const char in str1Count) {
+        if (str1Count[char] !== str2Count[char]) {
+            return false;
+        }
+    }
+    return true;
+};
+
+console.log("___________________________");
+console.log(isAnagram("secure", "rescue"));
