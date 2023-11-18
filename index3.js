@@ -72,3 +72,22 @@ function addTwoNumbers(l1, l2) {
 
 console.log("____________________________");
 console.log(addTwoNumbers([2, 4, 3], [5, 6, 4]));
+
+//Write a function that removes duplicates from an array AND RETURN UNIQUE ARRAY
+// [1,2,3,1,2,5,5] [1,2,3,5]
+// 1. Create an empty array, unique
+// 2. Loop the argument array
+//3. Check if unique has current element of argument array, if it has already, do not push, if it does NOT have it, then push
+// return unique array
+function removeDuplicates(arr) {
+    let unique = [];
+
+    for (let i = 0; i < arr.length; i++) {
+        let number = arr[i];
+        if (!unique.includes(number)) {
+            unique.push(number);
+        }
+    }
+    return unique;
+}
+console.log(removeDuplicates([1, 2, 3, 1, 2, 5, 5]));
